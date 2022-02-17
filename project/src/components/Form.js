@@ -1,14 +1,24 @@
 import React, { useState } from  'react';
+import Error from "./error";
 
-const Form = () =>{
-    const [find, setFind] = useState('');
-    const searchImage = event =>{
+const Form = ({setSearch}) =>{
+    const [ find, setFind ] = useState('');
+    const [ error, setError ] = useState(false);
 
+    const searchImage = event => {
+        event.preventDefault();
+
+        if(find.trim() === ''){
+            setError(true);
+            return;
+        }
+        setError(false);
+
+        setSearch(find);
     }
 
     return(
-        <form>
-            onSubmit = {searchImage}
+        <form onSubmit = {searchImage}>
             <div className="row">
                 <div className="form-group col-md-8">
                     <input
@@ -26,6 +36,7 @@ const Form = () =>{
                     />
                 </div>
             </div>
+            {error ? <Error message="Please you can add a word for search" /> : null }
         </form>
     )
 }
