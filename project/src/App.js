@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Form from "./components/Form";
+import ListImages from "./components/ListImages";
 
 function App() {
 
     const [ search, setSearch ] = useState('');
+    const [ imgs, setImg ] = useState([]);
 
     useEffect(() => {
     const consultApi = async () => {
@@ -16,18 +18,23 @@ function App() {
         const answer = await fetch(url);
         const result = await answer.json()
 
-        setSearch(result.hits);
+        setImg(result.hits);
     }
     consultApi();
     }, [search])
 
   return (
-    <div className="container">
-      <div className="jumbotron">
-        <p className="lead text-center">Search your image...</p>
+      <div className="container">
+          <div className="jumbotron">
+              <p className="lead text-center">Search your image...</p>
+              <Form setSearch={setSearch}/>
+          </div>
+          <div className="row">
+              <ListImages
+                  images={imgs}
+              />
+          </div>
       </div>
-        <Form setSearch={setSearch}/>
-    </div>
   );
 }
 
