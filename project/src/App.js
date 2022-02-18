@@ -1,41 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState,useEffect } from 'react';
+import ListaImagenes from "./components/ListaImagenes";
 import Form from "./components/Form";
-import ListImages from "./components/ListImages";
 
-function App() {
+const App = () => {
 
-    const [ search, setSearch ] = useState('');
-    const [ imgs, setImg ] = useState([]);
+    const [ buscar, setBuscar ] = useState('');
+    const [ imagenes, setImagenes ] = useState([]);
 
     useEffect(() => {
-    const consultApi = async () => {
-        if(search === '') return;
+        const ConsultaApi = async () => {
 
-        const imagesPerPage = 10;
-        const key = '12751283-f3e8e27ec56266412b79257af';
-        const url = `https://pixabay.com/api/?key=${key}&q=${search}&per_page=${imagesPerPage}`;
+            const pagina = 20;
+            const key = '12751283-f3e8e27ec56266412b79257af';
+            const url = `https://pixabay.com/api/?key=${key}&q=${buscar}&${pagina}`
 
-        const answer = await fetch(url);
-        const result = await answer.json()
+            const consultar = await fetch(url);
+            const responder = await consultar.json();
 
-        setImg(result.hits);
-    }
-    consultApi();
-    }, [search])
+            setImagenes(responder.hits)
+        }
+        ConsultaApi();
+    })
 
-  return (
-      <div className="container">
-          <div className="jumbotron">
-              <p className="lead text-center">Search your image...</p>
-              <Form setSearch={setSearch}/>
-          </div>
-          <div className="row">
-              <ListImages
-                  images={imgs}
-              />
-          </div>
-      </div>
-  );
+    return(
+        <div className="container">
+            <div className="jumbotron">
+                <Form setBuscar={setBuscar}/>
+            </div>
+            <div className="row justify-content-center">
+                <ListaImagenes
+                    imagenes = {imagenes}
+                />
+            </div>
+        </div>
+    )
 }
 
 export default App;

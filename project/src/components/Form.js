@@ -1,42 +1,43 @@
-import React, { useState } from  'react';
-import Error from "./error";
+import React, { useState } from 'react';
+import Error from "./Error";
 
-const Form = ({setSearch}) =>{
-    const [ find, setFind ] = useState('');
+const Form = ({setBuscar}) => {
+
+    const [ tema, setTema ] = useState('');
     const [ error, setError ] = useState(false);
 
-    const searchImage = event => {
-        event.preventDefault();
+    const buscarImagen = e => {
+        e.preventDefault();
 
-        if(find.trim() === ''){
+        if(tema.trim() === ''){
             setError(true);
             return;
         }
         setError(false);
 
-        setSearch(find);
+        setBuscar(tema);
     }
 
     return(
-        <form onSubmit = {searchImage}>
-            <div className="row">
-                <div className="form-group col-md-8">
-                    <input
-                        type="text"
-                        className="form-control form-control-lg"
-                        placeholder="Find an image, for example art..."
-                        onChange={event => setFind(event.target.value)}
-                    />
-                </div>
-                <div className="form-group col-md-4">
-                    <input
-                        type="submit"
-                        className="btn btn-danger btn-block"
-                        value="Buscar"
-                    />
+        <form onSubmit={buscarImagen}>
+            <div className="container">
+                <div className="jumbotron">
+                    <div className="form-group">
+                        <input type="text"
+                               className="form-control"
+                               placeholder="Enter your Search..."
+                               onChange={event => setTema(event.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input type="submit"
+                               className="btn btn-primary btn-block"
+                               value="Buscar"
+                        />
+                    </div>
+                    { error ? <Error mensaje="Debe ingresar un palabra para la busqueda"/> : null}
                 </div>
             </div>
-            {error ? <Error message="Please you can add a word for search" /> : null }
         </form>
     )
 }
