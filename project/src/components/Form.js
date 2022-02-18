@@ -1,42 +1,41 @@
 import React, { useState } from 'react';
 import Error from "./Error";
 
-const Form = ({setBuscar}) => {
+const Form = ({setSearch}) => {
 
-    const [ tema, setTema ] = useState('');
+    const [ words, setWords ] = useState('');
     const [ error, setError ] = useState(false);
 
-    const buscarImagen = e => {
+    const searchImage = e => {
         e.preventDefault();
 
-        if(tema.trim() === ''){
+        if(words.trim() === ''){
             setError(true);
             return;
         }
         setError(false);
 
-        setBuscar(tema);
+        setSearch(words);
     }
 
+
     return(
-        <form onSubmit={buscarImagen}>
-            <div className="container">
-                <div className="jumbotron">
-                    <div className="form-group">
-                        <input type="text"
-                               className="form-control"
-                               placeholder="Enter your Search..."
-                               onChange={event => setTema(event.target.value)}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input type="submit"
-                               className="btn btn-primary btn-block"
-                               value="Buscar"
-                        />
-                    </div>
-                    { error ? <Error mensaje="Debe ingresar un palabra para la busqueda"/> : null}
+        <form onSubmit={searchImage}>
+            <div className="row p-5">
+                <div className="form-group col-12 col-sm-12 col-md-9 col-lg-10">
+                    <input type="text"
+                           className="form-control"
+                           placeholder="Enter your word..."
+                           onChange={event => setWords(event.target.value)}
+                    />
                 </div>
+                <div className="form-group col-12 col-sm-12 col-md-3 col-lg-2">
+                    <input type="submit"
+                           className="form-control btn-primary"
+                           value="Buscar"
+                    />
+                </div>
+                { error ? <Error message="Please you must a write at least one word!"/> : null}
             </div>
         </form>
     )
